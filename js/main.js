@@ -132,23 +132,26 @@ $(document).ready(() => {
                 var factor = 10 / (widthContent*0.77/2);
                 posMapX+=posx*2/33;
                 posMapY+=posy*2/33;
-                var vertical = posy*factor;
-                var horizontal = posx*factor;
+                var vertical = Math.round(posy*factor);
+                var horizontal = Math.round(posx*factor);
+                if(horizontal==0 && vertical==0){
+                    return;
+                }
                 if(vertical>0){
                     if(horizontal>0){
                         //Cuadrante 1
-                        addLog("Moviendo mapa " + Math.round(vertical) + "↑, " + Math.round(horizontal) +"→");
-                    }else{
+                        addLog("Moviendo mapa " + vertical + "↑, " + horizontal +"→");
+                    }else if(horizontal<0){
                         //Cuadrante 2
-                        addLog("Moviendo mapa " + Math.round(vertical) + "↑, " + Math.round(horizontal) +"←");
+                        addLog("Moviendo mapa " + vertical + "↑, " + horizontal +"←");
                     }
-                }else{
+                }else if(vertical<0){
                     if(horizontal<0){
                         //Cuadrante 3 
-                        addLog("Moviendo mapa " + Math.round(vertical) + "↓, " + Math.round(horizontal) +"→");
-                    }else{
+                        addLog("Moviendo mapa " + vertical + "↓, " + horizontal +"→");
+                    }else if(horizontal>0){
                         //Cuadrante 4
-                        addLog("Moviendo mapa " + Math.round(vertical) + "↓, " + Math.round(horizontal) +"←");
+                        addLog("Moviendo mapa " + vertical + "↓, " + horizontal +"←");
                     }
                 }
                 socket.send(horizontal + "h, " + vertical + "v");
