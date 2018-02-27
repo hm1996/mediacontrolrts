@@ -17,7 +17,7 @@ var btnConFn = () => {
         $("#btnConectar").prop("disabled", false);
         addLog("Conectado.");
         connected = true;
-        socket.send("MEDIACONTROLRTS-"+codeMap);
+        socket.send("<["+"MEDIACONTROLRTS-"+codeMap+"]>");
     };
     socket.onclose = () => {
         $("#btnConectar").addClass("btn-success");
@@ -52,11 +52,15 @@ var fnClickEq = (event) => {
     $("#selector-2-1").html('<i class="fa fa-check"></i>');
     $("#selector-2-2").html('<i class="fa fa-times"></i>');
     $("#selector-2-3").html('<i class="fa fa-exclamation-triangle"></i>');
-    $("#selector-2-4").html('<i class="fa fa-eye"></i>');
+    if(!showEquipos){
+    	$("#selector-2-4").html('<i class="fa fa-eye-slash"></i>');
+    }else{
+    	$("#selector-2-4").html('<i class="fa fa-eye"></i>');
+	}
 
     $("#selector-2-1").click(() => {
         if(connected) {
-            socket.send("showeqcon");
+            socket.send("<["+"showeqcon"+"]>");
             showEquipos = "Conectados";
             addLog("Mostrar solo conectados.");
         } else {
@@ -65,7 +69,7 @@ var fnClickEq = (event) => {
     });
     $("#selector-2-2").click(() => {
         if(connected) {
-            socket.send("showeqdcon");
+            socket.send("<["+"showeqdcon"+"]>");
             showEquipos = "Desconectados";
             addLog("Mostrar solo desconectados.");
         } else {
@@ -74,7 +78,7 @@ var fnClickEq = (event) => {
     });
     $("#selector-2-3").click(() => {
         if(connected) {
-            socket.send("showeqdes");
+            socket.send("<["+"showeqdes"+"]>");
             showEquipos = "Destello";
             addLog("Mostrar solo en destello.");
         } else {
@@ -83,14 +87,14 @@ var fnClickEq = (event) => {
     });
     $("#selector-2-4").click(() => {
         if(connected) {
-            if(!showEquipos){
-                socket.send("hideeq");
+            if(showEquipos){
+                socket.send("<["+"hideeq"+"]>");
                 showEquipos = false;
-                addLog("Mostrar todos los equipos.");
+                addLog("Ocultar todos los equipos.");
             } else {
                 showEquipos = true;
-                socket.send("showeq");
-                addLog("Ocultar todos los equipos.");
+                socket.send("<["+"showeq"+"]>");
+                addLog("Mostrar todos los equipos.");
             }
         } else {
             addLog("No hay conexion.");
@@ -122,6 +126,8 @@ $(document).ready(() => {
     codeMap = prompt("Digite el numero del mapa:");
     if(codeMap == null || codeMap == "") {
         location.reload(true);
+    }else{
+    	$("#btnConectar").click();
     }
     $("#joystick").draggable({
         start: ()=>{
@@ -141,20 +147,20 @@ $(document).ready(() => {
                     if(horizontal>0){
                         //Cuadrante 1
                         addLog("Moviendo mapa " + vertical + "↑, " + horizontal +"→");
-                    }else if(horizontal<0){
+                    }else{
                         //Cuadrante 2
                         addLog("Moviendo mapa " + vertical + "↑, " + horizontal +"←");
                     }
-                }else if(vertical<0){
+                }else{
                     if(horizontal<0){
                         //Cuadrante 3 
-                        addLog("Moviendo mapa " + vertical + "↓, " + horizontal +"→");
-                    }else if(horizontal>0){
-                        //Cuadrante 4
                         addLog("Moviendo mapa " + vertical + "↓, " + horizontal +"←");
+                    }else{
+                        //Cuadrante 4
+                        addLog("Moviendo mapa " + vertical + "↓, " + horizontal +"→");
                     }
                 }
-                socket.send(horizontal + "h, " + vertical + "v");
+                socket.send("<["+horizontal + "h," + vertical + "v"+"]>");
             }, 200);
         },
         cursor: "move",
@@ -202,7 +208,7 @@ function addLog(text) {
 
 $("#btnZoomIn").click(()=>{
     if(connected){
-        socket.send("zoomin");
+        socket.send("<["+"zoomin"+"]>");
         addLog("Zoom +");
     }else{
         addLog("No hay conexion.");
@@ -210,7 +216,7 @@ $("#btnZoomIn").click(()=>{
 });
 $("#btnZoomOut").click(()=>{
     if(connected){
-        socket.send("zoomout");
+        socket.send("<["+"zoomout"+"]>");
         addLog("Zoom -");
     }else{
         addLog("No hay conexion.");
@@ -220,12 +226,12 @@ $("#btnGrupos").click(()=>{
     if(connected){
         if(showGrupos) {
             addLog("Ocultar grupos.");
-            socket.send("hidegp");
+            socket.send("<["+"hidegp"+"]>");
             showGrupos = false;
         } else {
             addLog("Mostrar grupos.");
             showGrupos = true;
-            socket.send("showgp");
+            socket.send("<["+"showgp"+"]>");
         }
     }else{
         addLog("No hay conexion.");
@@ -233,7 +239,7 @@ $("#btnGrupos").click(()=>{
 });
 $("#btnOcultar").click(()=>{
     if(connected){
-        socket.send("hideall");
+        socket.send("<["+"hideall"+"]>");
         showEquipos = false;
         showGrupos = false;
         addLog("Ocultar todo.");
