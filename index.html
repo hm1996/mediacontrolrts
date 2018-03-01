@@ -12,15 +12,15 @@
     <link rel="stylesheet" href="css/jquery-ui.min.css">
 </head>
 <body>
-    <div class="container">
-        <div class="row align-items-center text-center selectors" style="margin-top:100px;" id="contentSelectors">
-            <div class="col col-lg-1 offset-lg-3" id="selector-1">
+    <div class="container-fluid">
+        <div class="row align-items-center text-center selectors" id="contentSelectors">
+            <div class="col col-lg-1 offset-lg-3 selector" id="selector-1">
                 <button type="button" class="btn selector" id="btnZoomIn"><i class="fa fa-search-plus"></i></button>
             </div>
-            <div class="col col-lg-1" id="selector-2">
+            <div class="col col-lg-1 selector" id="selector-2">
                 <button type="button" class="btn selector" id="btnZoomOut"><i class="fa fa-search-minus"></i></button>
             </div>
-            <div class="col col-lg-1" id="selector-3">
+            <div class="col col-lg-1 selector" id="selector-3">
                 <div style="border-radius: 5%; border-style: solid; border-color: gray; border-width: 1px; height: 100%;" id="contJoy">
                     <div id="joystickContent">
                         <div id="joystick">
@@ -28,16 +28,19 @@
                     </div>
                 </div>
             </div>
-            <div class="col col-lg-1" id="selector-4">
+            <div class="col col-lg-1 selector" id="selector-4">
                 <button type="button" class="btn selector" id="btnEquipos"><i class="fa fa-server"></i></button>
             </div>
-            <div class="col col-lg-1" id="selector-5">
+            <div class="col col-lg-1 selector" id="selector-5">
                 <button type="button" class="btn selector" id="btnGrupos"><i class="fa fa-lightbulb"></i></button>
             </div>
-            <div class="col col-lg-1" id="selector-6">
+            <div class="col col-lg-1 selector" id="selector-6">
                 <button type="button" class="btn selector" id="btnOcultar"><i class="fa fa-eye-slash"></i></button>
             </div>
         </div>
+    </div>
+    <hr>
+    <div class="row align-content-start flex-wrap" id="eventsContainer">
     </div>
     <div class="container" style="display:none" id="selections">
         <div class="row _selector">
@@ -65,6 +68,7 @@
             </div>
         </div>
     </div>
+    <div id="btnEventos" class="text-center"><i class="fa fa-snowflake"></i></div>
     <div id="logContent" style="height:40px;width:100%;background-color:#000;position:absolute;bottom:25px;opacity:0.5;color:white;font-size:0.8rem;padding-left:10px;"></div>
     <button type="button" id="btnConectar" class="btn btn-large btn-block btn-success" style="border-radius:0;position:absolute;width:100vw;height:25px;bottom:0;padding:0;">Conectar</button>
     <script src="js/jquery-3.3.1.min.js"></script>

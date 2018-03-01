@@ -8,7 +8,7 @@ button.selector{
     font-size: 2rem !important;
     padding: 0;
 }
-div.col {
+div.selector {
     padding: 5px;
     height: 100%;
 }
@@ -35,8 +35,8 @@ button.selector-2{
     height: 90%;
     background-color: gray;
     position: absolute;
-    top: calc(50% - 45%);
-    left: calc(50% - 45%);
+    top: 5%;
+    left: 5%;
     border-style: solid;
     border-color: #333;
     border-width: 1px; 
@@ -55,4 +55,72 @@ button.selector-2{
 }
 #logContent {
     overflow-y: scroll;
+}
+.event {
+    padding: 0;
+    padding: 5px;
+}
+.eventContent {
+    width: 100%;
+    height:100%; 
+    border-radius: 5%;
+    border-style: dotted;
+    border-width: 5px;
+    padding: 5px;
+    overflow-x: unset;
+}
+#eventsContainer {
+    margin: 0;
+    overflow-y: auto;
+    margin-top: 50px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+body{
+    padding-top: 100px;
+}
+html {
+    height: 100%;
+}
+#btnEventos{
+    font-size: 1.7rem;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    bottom: 70px;
+    right: 5px;
+    z-index: 100;
+    background: #349dd9;
+    background-image: -webkit-linear-gradient(top, #349dd9, #3c9ffc);
+    background-image: -moz-linear-gradient(top, #349dd9, #3c9ffc);
+    background-image: -ms-linear-gradient(top, #349dd9, #3c9ffc);
+    background-image: -o-linear-gradient(top, #349dd9, #3c9ffc);
+    background-image: linear-gradient(to bottom, #349dd9, #3c9ffc);
+    color: #ffffff;
+    padding: 5px 5px 5px 5px;
+    text-decoration: none;
+}
+#btnEventos:hover{
+    text-decoration: none;
+    background: #2b9cb8;
+    color: #DDD;
+    background-image: -webkit-linear-gradient(top, #2b9cb8, #34c0d9);
+    background-image: -moz-linear-gradient(top, #2b9cb8, #34c0d9);
+    background-image: -ms-linear-gradient(top, #2b9cb8, #34c0d9);
+    background-image: -o-linear-gradient(top, #2b9cb8, #34c0d9);
+    background-image: linear-gradient(to bottom, #2b9cb8, #34c0d9);
+}
+#btnEventos:active{
+    background: #349dd9;
+    background-image: -webkit-linear-gradient(top, #349dd9, #3c9ffc);
+    background-image: -moz-linear-gradient(top, #349dd9, #3c9ffc);
+    background-image: -ms-linear-gradient(top, #349dd9, #3c9ffc);
+    background-image: -o-linear-gradient(top, #349dd9, #3c9ffc);
+    background-image: linear-gradient(to bottom, #349dd9, #3c9ffc);
+    color: #ffffff;
+    padding: 5px 5px 5px 5px;
+    text-decoration: none;
 }

@@ -24,14 +24,47 @@ var btnConFn = () => {
         $("#btnConectar").removeClass("btn-danger");
         $("#btnConectar").html("Conectar");
         $("#btnConectar").prop("disabled", false);
+        $("#btnConectar").off();
+        $("#btnConectar").on("click", btnConFn);
         addLog("Desconectado.");
         connected = false;
     };
     socket.onerror = (error)=>{
         addLog("Error de conexion: "+error);
+        connected = false;
+        $("#btnConectar").addClass("btn-success");
+        $("#btnConectar").removeClass("btn-danger");
+        $("#btnConectar").html("Conectar");
+        $("#btnConectar").prop("disabled", false);
+        $("#btnConectar").off();
+        $("#btnConectar").on("click", btnConFn);
+        addLog("Desconectado.");
+        connected = false;
     }
     socket.onmessage = (event)=>{
-        addLog("Mensaje: "+event.data);
+        if(event.data.indexOf("EVENTO")!=-1){
+            var info = event.data.split("EVENTO")[1].split("<").join("").split(">").join("").split("|");
+            switch (info[0]) {
+                case "Conexion":
+                    addEvent(info[1].split(":")[0] + "<strong>" + info[1].split(":")[1] + "</strong>", 20, "green");
+                    break;
+                case "Evento":
+                    addEvent(info[1], 20, "blue");
+                    break;
+                case "Desconexion":
+                    addEvent(info[1].split(":")[0] + "<strong>" + info[1].split(":")[1] + "</strong>", 20, "red");
+                    break;
+                case "Estado":
+                    addEvent(info[1], 20, "yellow");
+                    break;
+                default:
+                    addEvent(info, 20);
+                    break;
+            }
+            addLog("Mensaje: " + event.data.split("EVENTO")[1].split("<").join("").split(">").join(""));
+        }else{
+            addLog("Mensaje: "+event.data);
+        }
     }
     $("#btnConectar").off();
     $("#btnConectar").on("click", () => {
@@ -107,8 +140,8 @@ var fnClickEq = (event) => {
         $(htmlAnterior).click(fnClickEq);
         $(htmlAnterior).show();
     });
-
     $("#selections").show();
+    $(".btn.selector-2").height($(".btn.selector-2").width());
 }
 
 var intervalMov = undefined;
@@ -123,12 +156,12 @@ var widthContent = 0;
 $("#btnEquipos").click(fnClickEq);
 
 $(document).ready(() => {
-    codeMap = prompt("Digite el numero del mapa:");
+    /*codeMap = prompt("Digite el numero del mapa:");
     if(codeMap == null || codeMap == "") {
         location.reload(true);
     }else{
     	$("#btnConectar").click();
-    }
+    }*/
     $("#joystick").draggable({
         start: ()=>{
             widthContent = $("#contJoy").width();
@@ -179,10 +212,14 @@ $(document).ready(() => {
     });
 
     $("#contentSelectors").height($(".col").width()+10);
+    $(".event").height($(".event").width() + 0.01);
+    $("#eventsContainer").height($(window).height() - $("#contentSelectors").height() - 215); 
 });
 
 $(window).resize(()=>{
-    $("#contentSelectors").height($(".col").width()+10);    
+    $("#contentSelectors").height($(".col").width() + 10);
+    $(".event").height($(".event").width()+0.01); 
+    $("#eventsContainer").height($(window).height()-$("#contentSelectors").height()-215); 
 });
 
 function addLog(text) {
@@ -247,3 +284,66 @@ $("#btnOcultar").click(()=>{
         addLog("No hay conexion.");
     }
 });
+var showEventos = false;
+$("#btnEventos").click(()=>{
+    if(connected){
+        if(showEventos){
+            $("#btnEventos").html('<i class="fa fa-snowflake"></i>');
+            ocultareventos();
+            showEventos = false;
+            addLog("Ocultando todos los eventos.");
+        } else {
+            $("#btnEventos").html('<i class="fa fa-tint"></i>');
+            mostrareventos();
+            showEventos = true;
+            addLog("Mostrando todos los eventos.");
+        }
+    } else {
+        addLog("No hay conexion.");
+    }
+});
+var eventosMostrados = [];
+function addEvent(texto, duracion, color) {
+    if(color==undefined){
+        color = '#DDD';
+    }
+    var datatime = (new Date()).getTime();
+    var htmlContent = 
+    '<div class="col-lg-2 col-md-4 col-sm-6 event" id="event'+datatime+'">'+
+        '<div class="eventContent text-center" style="border-color: '+color+';">'+
+        '<h5>' + (new Date()).toLocaleTimeString() + '</h5>'+
+            '<hr>'+
+            '<p class="eventText" style="font-size:0.7em;width:100%;height:100%;">'+
+                texto+
+            '</p>'+
+        '</div>'+
+    '</div>';
+    var html = $("#eventsContainer").html()+htmlContent;
+    $("#eventsContainer").append(htmlContent);
+    $(".event").height($(".event").width() + 0.01);
+    //$(".eventText").width($(".event").height()-20);
+    eval('setTimeout(() => {$("#event' + datatime + '").fadeOut();},' + duracion*1000 +')');
+    var fn1 = eval('() => {$("#event' + datatime + '").css("background-color", "gray");}');
+    var fn2 = eval('() => {$("#event' + datatime + '").css("background-color", "white");}');
+    setTimeout(fn1, 40);
+    setTimeout(fn2, 80);
+    setTimeout(fn1, 120);
+    setTimeout(fn2, 160);
+    var audio = new Audio('audio/event.wav');
+    audio.play();
+    setTimeout(() => {
+        audio.play();
+    }, 200);
+}
+function mostrareventos() {
+    var divEvents = $("#eventsContainer>");
+    for(let i=0; i<divEvents.length; i++){
+        $(divEvents[i]).show();
+    }
+}
+function ocultareventos() {
+    var divEvents = $("#eventsContainer>");
+    for(let i=0; i<divEvents.length; i++){
+        $(divEvents[i]).hide();
+    }
+}
