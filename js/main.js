@@ -18,6 +18,7 @@ var btnConFn = () => {
         addLog("Conectado.");
         connected = true;
         socket.send("<["+"MEDIACONTROLRTS-"+codeMap+"]>");
+        socket.send("<["+"CONECTED]>");
     };
     socket.onclose = () => {
         $("#btnConectar").addClass("btn-success");
@@ -55,7 +56,7 @@ var btnConFn = () => {
                     addEvent(info[1].split(":")[0] + "<strong>" + info[1].split(":")[1] + "</strong>", 20, "red");
                     break;
                 case "Estado":
-                    addEvent(info[1], 20, "yellow");
+                    addEvent(info[1], 20, "orange");
                     break;
                 default:
                     addEvent(info, 20);
