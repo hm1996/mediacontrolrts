@@ -8,7 +8,7 @@ var codeMap = -1;
 
 var btnConFn = () => {
     $("#btnConectar").prop("disabled", true);
-    socket = new WebSocket('ws://192.168.0.150:4321');
+    socket = new WebSocket('ws://localhost:4321');
     addLog("Conectando...")
     socket.onopen = () => {
         $("#btnConectar").removeClass("btn-success");
@@ -157,12 +157,12 @@ var widthContent = 0;
 $("#btnEquipos").click(fnClickEq);
 
 $(document).ready(() => {
-    /*codeMap = prompt("Digite el numero del mapa:");
+    codeMap = prompt("Digite el numero del mapa:");
     if(codeMap == null || codeMap == "") {
         location.reload(true);
     }else{
     	$("#btnConectar").click();
-    }*/
+    }
     $("#joystick").draggable({
         start: ()=>{
             widthContent = $("#contJoy").width();
@@ -194,7 +194,7 @@ $(document).ready(() => {
                         addLog("Moviendo mapa " + vertical + "↓, " + horizontal +"→");
                     }
                 }
-                socket.send("<["+horizontal + "h," + vertical + "v"+"]>");
+                socket.send("<[coord:"+horizontal + "," + vertical + "]>");
             }, 200);
         },
         cursor: "move",
