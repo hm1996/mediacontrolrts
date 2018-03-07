@@ -87,9 +87,9 @@ var fnClickEq = (event) => {
     $("#selector-2-2").html('<i class="fa fa-times"></i>');
     $("#selector-2-3").html('<i class="fa fa-exclamation-triangle"></i>');
     if(!showEquipos){
-    	$("#selector-2-4").html('<i class="fa fa-eye-slash"></i>');
-    }else{
     	$("#selector-2-4").html('<i class="fa fa-eye"></i>');
+    }else{
+        $("#selector-2-4").html('<i class="fa fa-eye-slash"></i>');
 	}
 
     $("#selector-2-1").click(() => {
